@@ -1,0 +1,21 @@
+syntax = "proto3";
+package ycp;
+
+//数据包
+message YCPPacket {
+    //命令,指示要如果处理
+    //0-7:cmd 0-255
+    //8-15:option
+    //16-31:packet sub-no,一个大数据包可以分拆分多个小数据包,这里面是分拆后包的序号
+    fixed32 cmd = 1;
+
+    //传输队列序号,发送端加一循环使用
+    fixed32 pktNo = 2;
+
+    //连接ID,通常不传输,只是需要时传输
+    fixed32 conID = 3;
+
+    //数据,因为要封装到udp中,长度不能太长,max=1400
+    bytes body = 5;
+
+}
