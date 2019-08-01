@@ -9,10 +9,10 @@
 
 
 
-## ycp交互流程
+## ycp交互说明
 
 - 服务端监听指定的端口(udp+tcp)
-- client建立udp socket后,需要先发送握手信息,可用于计算rto,也可以防止意外的udp干扰(攻击)
+- client建立udp socket后,需要先发送握手信息,可用于计算rto,也可以防止意外的udp干扰(攻击),握手时Pktno=0
 - client可发送多种类型的数据,udp,ycp,tcp等
   - udp类型,只是发送,能不能收到就靠网络了
   - ycp类型,类似kcp,基本为可靠传输,但是也允许超时失败,同时ycp可以对每个发送的包设置是否需要有序

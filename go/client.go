@@ -27,8 +27,11 @@ type TYCPClient struct {
 	LastTCPRecvTime time.Time
 
 	pktNo uint32
+	host  string
+	port  uint16
 }
 
+//当返回新的client后,需要运行client.Run()
 func NewYCPClient(host string, port uint16) (ycpCli *TYCPClient) {
 	nowTime := time.Now()
 	ycpCli = &TYCPClient{
@@ -41,8 +44,14 @@ func NewYCPClient(host string, port uint16) (ycpCli *TYCPClient) {
 		LastYCPRecvTime: nowTime,
 		LastTCPSendTime: nowTime,
 		LastTCPRecvTime: nowTime,
+		host:            host,
+		port:            port,
 	}
 	return
+}
+
+func (this *TYCPClient) Run() {
+
 }
 
 func (this *TYCPClient) WriteUDP(pkt []byte) (int, error) {
@@ -60,5 +69,11 @@ func (this *TYCPClient) WriteTCP(pkt []byte) {
 }
 
 func (this *TYCPClient) NewPktNo() uint32 {
-	return atomic.AddUint32(&this.pktNo, 1)
+	no := atomic.AddUint32(&this.pktNo, 1)
+
+	if no == 0 {
+		return atomic.AddUint32(&this.pktNo, 1)
+	}
+
+	return no
 }
