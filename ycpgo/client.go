@@ -1,4 +1,4 @@
-package ycp
+package ycpgo
 
 import (
 	"net"
